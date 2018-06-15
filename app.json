@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo-app",
-    "description": "This project is really great.",
+    "name": "Todo App",
+    "description": "Todo App made with React-Native",
     "slug": "todo-app",
     "privacy": "public",
     "sdkVersion": "28.0.0",
@@ -17,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     }
