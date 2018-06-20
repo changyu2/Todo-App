@@ -9,17 +9,26 @@ import {
   Platform,
   ScrollView
 } from "react-native";
+import { AppLoading } from "expo";
 import ToDo from "./ToDo";
 
 const { width, height } = Dimensions.get("window");
 
 export default class App extends Component {
   state = {
-    newTodo: ""
+    newToDo: "",
+    loadedToDos: false
+  };
+
+  componentDidMount = () => {
+    this._loadToDos();
   };
 
   render() {
-    const { newTodo } = this.state;
+    const { newToDo, loadedToDos } = this.state;
+    if (!loadedToDos) {
+      return <AppLoading />;
+    }
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -28,7 +37,7 @@ export default class App extends Component {
           <TextInput
             style={styles.input}
             placeholder={"Add To do"}
-            value={newTodo}
+            value={newToDo}
             onChangeText={this._controlNewToDo}
             placeholderTextColor={"#999"}
             returnKeyType={"done"}
@@ -48,6 +57,7 @@ export default class App extends Component {
       newTodo: text
     });
   };
+  _loadToDos = () => {};
 }
 
 const styles = StyleSheet.create({
