@@ -86,6 +86,7 @@ export default class App extends Component {
           newToDo: "",
           toDos: { ...prevState.toDos, ...newToDoObject }
         };
+        this._saveToDos(newState.toDos);
         return { ...newState };
       });
     }
@@ -95,6 +96,7 @@ export default class App extends Component {
       const toDos = prevState.toDos;
       delete toDos[id];
       const newState = { ...prevState, ...toDos };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -107,6 +109,7 @@ export default class App extends Component {
           [id]: { ...prevState.toDos[id], isCompleted: false }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -119,6 +122,7 @@ export default class App extends Component {
           [id]: { ...prevState.toDos[id], isCompleted: true }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
   };
@@ -131,8 +135,12 @@ export default class App extends Component {
           [id]: { ...prevState.toDos[id], text: text }
         }
       };
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
+  };
+  _saveToDos = newToDos => {
+    const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
   };
 }
 
