@@ -7,7 +7,8 @@ import {
   TextInput,
   Dimensions,
   Platform,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { AppLoading } from "expo";
 import ToDo from "./ToDo";
@@ -16,11 +17,7 @@ import uuidv1 from "uuid/v1";
 const { width, height } = Dimensions.get("window");
 
 export default class App extends Component {
-  state = {
-    newToDo: "",
-    loadedToDos: false,
-    toDos: {}
-  };
+  state = { newToDo: "", loadedToDos: false, toDos: {} };
 
   componentDidMount = () => {
     this._loadToDos();
@@ -55,6 +52,7 @@ export default class App extends Component {
                 deleteToDo={this._deleteToDo}
                 uncompleteToDo={this._uncompleteToDo}
                 completeToDo={this._completeToDo}
+                updateToDo={this._updateToDo}
                 {...toDo}
               />
             ))}
@@ -65,14 +63,10 @@ export default class App extends Component {
   }
 
   _controlNewToDo = text => {
-    this.setState({
-      newToDo: text
-    });
+    this.setState({ newToDo: text });
   };
   _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    });
+    this.setState({ loadedToDos: true });
   };
   _addToDo = () => {
     const { newToDo } = this.state;
@@ -90,10 +84,7 @@ export default class App extends Component {
         const newState = {
           ...prevState,
           newToDo: "",
-          toDos: {
-            ...prevState.toDos,
-            ...newToDoObject
-          }
+          toDos: { ...prevState.toDos, ...newToDoObject }
         };
         return { ...newState };
       });
@@ -103,10 +94,7 @@ export default class App extends Component {
     this.setState(prevState => {
       const toDos = prevState.toDos;
       delete toDos[id];
-      const newState = {
-        ...prevState,
-        ...toDos
-      };
+      const newState = { ...prevState, ...toDos };
       return { ...newState };
     });
   };
@@ -116,10 +104,7 @@ export default class App extends Component {
         ...prevState,
         toDos: {
           ...prevState.toDos,
-          [id]: {
-            ...prevState.toDos[id],
-            isCompleted: false
-          }
+          [id]: { ...prevState.toDos[id], isCompleted: false }
         }
       };
       return { ...newState };
@@ -132,6 +117,18 @@ export default class App extends Component {
         toDos: {
           ...prevState.toDos,
           [id]: { ...prevState.toDos[id], isCompleted: true }
+        }
+      };
+      return { ...newState };
+    });
+  };
+  _updateToDo = (id, text) => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: { ...prevState.toDos[id], text: text }
         }
       };
       return { ...newState };
