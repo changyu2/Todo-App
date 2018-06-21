@@ -32,7 +32,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Text style={styles.title}>To Do</Text>
+        <Text style={styles.title}>King of To Do</Text>
         <View style={styles.card}>
           <TextInput
             style={styles.input}
@@ -73,7 +73,7 @@ export default class App extends Component {
       const parsedToDos = JSON.parse(toDos);
       this.setState({
         loadedToDos: true,
-        toDos: parsedToDos
+        toDos: parsedToDos || {}
       });
     } catch (err) {
       console.log(err);
@@ -158,7 +158,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#194297",
+    backgroundColor: "#F23657",
     alignItems: "center"
   },
   title: {
